@@ -82,7 +82,6 @@ form button {
     background: white;
     border-radius: 8%;
     width: 380px;
-    height: 731px;
     
 }
 
@@ -95,7 +94,7 @@ form button {
 }
 
 .recipe-details {
-    margin-left: 24px;
+    padding: 0 24px;
 }
 
 .recipe-content h3 {
@@ -146,6 +145,18 @@ form button {
 .recipe-content .ingredients-list li {
     width: 50%; 
     margin-bottom: 20px;
+}
+
+.select {
+    border-radius: 5px;
+    background: white;
+    padding: 12px;
+}
+
+.select ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 @media screen and (min-width: 768px) {

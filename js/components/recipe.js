@@ -9,7 +9,7 @@ export class Recipe {
 
         // Image
         const image = document.createElement('img');
-        image.setAttribute('src', `assets/${this.data.image}`);
+        //image.setAttribute('src', `assets/${this.data.image}`);
         image.setAttribute('alt', `Image de la recette ${this.data.name}`);
         image.classList.add('recipe-image');
         recipe.appendChild(image);
