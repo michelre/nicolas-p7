@@ -1,13 +1,13 @@
 html, body {
     margin: 0;
     background: #E5E5E5;
+    font-family: 'Arial', sans-serif; 
 }
 
 .container {
     max-width: 1240px;
     margin: 20px auto;
 }
-
 
 header {
     background: url('assets/header-bg.png') no-repeat center;
@@ -17,7 +17,7 @@ header {
 
 h1 {
     color: #FFD15B;
-    text-align:center;
+    text-align: center;
     max-width: 890px;
     margin: 170px auto 30px auto;
     line-height: 50px;
@@ -47,6 +47,28 @@ form button {
     height: 50px;
 }
 
+.filters {
+    display: flex;
+    gap: 100px;
+    margin-bottom: 20px;
+}
+
+.filter {
+    width: 195px;
+    height: 56px;
+    border-color: white;
+    border-radius: 13px ;
+    padding: 10px;
+    font-size: 14px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.nb-recettes {
+    text-align: right;
+    font-family: 'Anton', sans-serif;
+    margin: 20px;
+}
+
 .recipes {
     list-style: none;
     padding: 0;
@@ -58,16 +80,81 @@ form button {
 
 .recipe {
     background: white;
-    border-radius: 5px;
+    border-radius: 8%;
+    width: 380px;
+    height: 731px;
+    
 }
 
-@media screen and (min-width: 768px){
+.recipe-image {
+    width: 380px;
+    height: 253px;
+    object-fit: cover;
+    border-top-left-radius: 8%;
+    border-top-right-radius: 8%;
+}
+
+.recipe-details {
+    margin-left: 24px;
+}
+
+.recipe-content h3 {
+    font-family: 'Anton', sans-serif;
+}
+
+.recipe-subtitle {
+    font-size: 12px;
+    font-family: 'Manrope', sans-serif;
+    color: #7A7A7A;
+    margin: 10px 0;
+}
+
+.recipe p,
+.recipe ul li {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 19.12px;
+}
+
+.recipe ul {
+    padding: 0;
+    margin: 10px 0;
+}
+
+.recipe ul li {
+    list-style: none;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.ingredient-name {
+    font-weight: bold;
+}
+
+.ingredient-quantity {
+    display: block;
+    color: #7A7A7A;;
+}
+
+.recipe-content .ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.recipe-content .ingredients-list li {
+    width: 50%; 
+    margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
     .recipes {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media screen and (min-width: 1024px){
+@media screen and (min-width: 1024px) {
     .recipes {
         grid-template-columns: 1fr 1fr 1fr;
     }

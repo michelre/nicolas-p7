@@ -16,8 +16,8 @@
             },
             {
                 "ingredient" : "Crème de coco",
-                "quantity" : 2,
-                "unit" : "cuillères à soupe"
+                "quantity" : 4,
+                "unit" : "cuillères"
             },
             {
                 "ingredient" : "Sucre",
@@ -25,7 +25,8 @@
                 "unit" : "grammes"
             },
             {
-                "ingredient": "Glaçons"
+                "ingredient": "Glaçons",
+                "quantity" : 2
             }
         ],
         "time": 10,

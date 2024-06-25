@@ -1,34 +1,44 @@
-<!doctype html>
+<!-- index.html -->
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Les petits plats</title>
-  <link rel="stylesheet" href="style.css">  
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <title>Les petits plats</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header>
-        <img alt="Logo les petits plats" src="assets/logo.svg" >
-        <h1>CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
+        <img alt="Logo les petits plats" src="assets/logo.svg">
+        <h1>CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
         <form>
             <input class="search" type="text" placeholder="Rechercher une recette, un ingrédient...">
             <button type="submit">
                 <img alt="Icône rechercher" src="assets/icon-search.svg">
             </button>
-
         </form>
     </header>
     <main class="container">
-        <div>
-            <div class="filtres"></div>
-            <b class="nb-recettes"></b>
-        </div>          
+        <div class="filters">
+            <select class="filter" id="ingredients-filter">
+                <option value="">Ingrédients</option>
+                <!-- Ajoutez vos options ici -->
+            </select>
+            <select class="filter" id="appliances-filter">
+                <option value="">Appareils</option>
+                <!-- Ajoutez vos options ici -->
+            </select>
+            <select class="filter" id="utensils-filter">
+                <option value="">Ustensiles</option>
+                <!-- Ajoutez vos options ici -->
+            </select>
+            <h3>50 recettes</h3>
+        </div>
         <ul class="recipes"></ul>
     </main>
-
-
-    <script src="js/components/recipe.js"></script>
-    <script src="js/components/select.js"></script>
-    <script src="js/script.js"></script>
+    <script type="module" src="js/components/recipe.js"></script>
+    <script type="module" src="js/components/select.js"></script>
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>
