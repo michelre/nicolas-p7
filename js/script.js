@@ -5,6 +5,7 @@ let recipes = [];
 let selectedIngredients = [];
 let selectedAppliances = [];
 let selectedUstensils = [];
+let query = ''
 
 // Récupère les recettes depuis un fichier JSON
 const fetchRecipes = async () => {
@@ -65,6 +66,13 @@ const createFilters = () => {
     filterRecipes()
   });
   filters.appendChild(selectAppliances.render());
+
+  //Initialisation d'évènements sur le champs de recherche
+  const form = document.querySelector('#search-form')
+  form.addEventListener('input', e => {
+    query = e.target.value.toLowerCase()
+    filterRecipes()
+  })
 };
 
 const filterRecipesByIngredient = (recipe) => {  
@@ -81,7 +89,14 @@ const filterRecipesByIngredient = (recipe) => {
 
 const filterBySearch = (recipe) => {
   // TODO: Chercher dans le titre & les ingrédients
-  return true
+  if(query.length === 0) {
+    return true
+  }
+
+  return recipe
+    .ingredients
+    .filter(ingredient => ingredient.ingredient.toLowerCase().includes(query))
+    .length > 0 || recipe.name.toLowerCase().includes(query)
 }
 
 const filterRecipesByUstensil = (recipe) => {  
