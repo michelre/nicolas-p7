@@ -142,12 +142,17 @@ const filterRecipesByAppliance = (recipe) => {
 }
 
 const filterRecipes = () => {  
-  const filteredRecipes = recipes.filter(recipe => {
-    return filterRecipesByIngredient(recipe) 
+  // Avantage: On peut sortir du for à tout moment. Inconvénient: Moins lisible car incrément de boucle présent
+  let filteredRecipes = []
+  for(let i = 0; i < recipes.length; i++){ 
+    const recipe = recipes[i]
+    if(filterRecipesByIngredient(recipe) 
       && filterRecipesByUstensil(recipe)
       && filterRecipesByAppliance(recipe)
-      && filterBySearch(recipe)
-  })
+      && filterBySearch(recipe)) {
+        filteredRecipes.push(recipe)
+      }
+  }  
 
 
   addRecipesDOM(filteredRecipes);
