@@ -156,10 +156,12 @@ form button {
   background-color: white;
   cursor: pointer;
   box-sizing: border-box;
+  overflow: hidden;
+  height: 50px;
 }
 
 .select.active {
-  padding: 10px;
+  height: auto;
 }
 
 .select-title {

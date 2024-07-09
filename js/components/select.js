@@ -4,7 +4,7 @@ class Select {
    * @param {Array} data - Les données pour peupler le dropdown.
    * @param {Function} selectData - Fonction de rappel pour gérer les données sélectionnées.
    */
-  constructor(name, data, selectData) {
+  constructor(name, data, selectData, removeData) {
     this.name = name;
     this.data = data;
     this.selectData = selectData;
@@ -13,6 +13,7 @@ class Select {
     this.selectedItems = [];
     this.maxHeight = 315;
     this.ignoreClose = false;
+    this.removeData = removeData;
   }
 
   // Filtre les données en fonction de la valeur de recherche
@@ -44,6 +45,7 @@ class Select {
           (item) => item !== element
         );
         this.filterData(value, list);
+        this.removeData(element)
       });
       el.appendChild(removeButton);
 
