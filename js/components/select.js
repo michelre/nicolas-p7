@@ -115,23 +115,38 @@ class Select {
   }
 
   // Rendu du composant
+
   render() {
     this.container = document.createElement("div");
     this.container.classList.add("select");
 
     const title = document.createElement("div");
-    title.innerText = this.name;
     title.classList.add("select-title");
+    title.innerText = this.name;
+
+    const chevron = document.createElement("i");
+    chevron.classList.add("fas", "fa-chevron-down");
+    title.appendChild(chevron);
+
     title.addEventListener("click", () => this.toggleDropdown());
     this.container.appendChild(title);
 
     const content = document.createElement("div");
     content.classList.add("select-content");
 
+    const searchBoxWrapper = document.createElement("div");
+    searchBoxWrapper.classList.add("search-box-wrapper");
+
     const searchBox = document.createElement("input");
     searchBox.setAttribute("type", "search");
     searchBox.classList.add("search-box");
-    content.appendChild(searchBox);
+    searchBoxWrapper.appendChild(searchBox);
+
+    const searchIcon = document.createElement("i");
+    searchIcon.classList.add("fas", "fa-search", "search-icon");
+    searchBoxWrapper.appendChild(searchIcon);
+
+    content.appendChild(searchBoxWrapper);
 
     const list = document.createElement("ul");
     list.style.maxHeight = "265px";
@@ -140,7 +155,7 @@ class Select {
     content.appendChild(list);
 
     searchBox.addEventListener("input", (e) => {
-      this.debounceFilter(e.target.value, list);
+        this.debounceFilter(e.target.value, list);
     });
 
     this.container.appendChild(content);
@@ -149,7 +164,7 @@ class Select {
     document.addEventListener("click", (e) => this.handleClickOutside(e));
 
     return this.container;
-  }
+}
 }
 
 export default Select;

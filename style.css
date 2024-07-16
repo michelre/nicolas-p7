@@ -50,8 +50,8 @@ form button {
 
 .filters {
   display: flex;
-  gap: 100px;
-  margin-bottom: 20px;
+  gap: 80px;
+  margin-bottom: 80px;
 }
 
 .filter {
@@ -151,8 +151,7 @@ form button {
   position: relative;
   display: inline-block;
   width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 15px;
   background-color: white;
   cursor: pointer;
   box-sizing: border-box;
@@ -168,12 +167,12 @@ form button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
 }
 
-.select-title::after {
-  content: "▼";
-  font-size: 12px;
+.select-title i {
+  margin-left: 10px;
+  font-size: 20px;
   color: #555;
 }
 
@@ -223,11 +222,31 @@ form button {
 .select-content .search-box {
   padding: 8px;
   border: 1px solid #ccc;
-  width: calc(
-    100% - 16px
-  ); /* Ajuster la largeur pour correspondre au conteneur */
   box-sizing: border-box;
   margin-bottom: 10px; /* Ajouter un espace en bas de la barre de recherche */
+}
+
+.search-box-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  padding: 8px 10px;
+  padding-right: 20px; /* Ajoute de l'espace pour l'icône de recherche */
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  color: #ccc;
+  font-size: 14px;
 }
 
 .selected-item {
