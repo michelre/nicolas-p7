@@ -81,7 +81,7 @@ form button {
 
 .recipe {
   background: white;
-  border-radius: 5%;
+  border-radius: 8%;
   width: 380px;
 }
 
@@ -106,6 +106,18 @@ form button {
   font-family: "Manrope", sans-serif;
   color: #7a7a7a;
   margin: 10px 0;
+}
+
+.recipe-time {
+  position: relative;
+    top: -235px;
+    right: -295px;
+  background-color: #ffd15b;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .recipe p,
@@ -194,6 +206,10 @@ form button {
 
 .select-content.show {
   display: block;
+}
+
+.select-content i {
+  margin-bottom: 10px;
 }
 
 .select-content ul {
