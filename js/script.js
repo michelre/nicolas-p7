@@ -6,6 +6,7 @@ let selectedIngredients = [];
 let selectedAppliances = [];
 let selectedUstensils = [];
 let query = ''
+let selectedFilters = null
 
 // Récupère les recettes depuis un fichier JSON
 const fetchRecipes = async () => {
@@ -26,6 +27,54 @@ const addRecipesDOM = (recipes) => {
   });
 };
 
+const removeSelectedIngredient = (value) => {
+  selectedIngredients = selectedIngredients.filter(ingredient => ingredient !== value)
+  filterRecipes()
+}
+
+const removeSelectedUstensil = (value) => {
+  selectedUstensils = selectedUstensils.filter(ustensil => ustensil !== value)
+  filterRecipes()
+}
+
+const removeSelectedAppliance = (value) => {
+  selectedAppliances = selectedAppliances.filter(appliance => appliance !== value)
+  filterRecipes()
+}
+
+const addSelectedFilters = (value, removeCallback, selectObject) => {
+  selectedFilters = document.querySelector('.selected-filters')
+  const element = document.createElement('li')
+  element.classList.add('selected-filter')
+
+  const text = document.createElement('span')
+  text.innerText = value
+
+  const removeButton = document.createElement("button");
+  removeButton.innerHTML = "&times;";
+
+  element.appendChild(text)
+  element.appendChild(removeButton)
+  
+  selectedFilters.appendChild(element)
+
+  removeButton.addEventListener('click', () => {
+    removeCallback(value)
+    selectObject.removeSelectItem(value)
+    element.remove()
+
+  })
+}
+
+const removeSelectedFilters = (value) => {
+  const filters = document.querySelectorAll('.selected-filter')
+  filters.forEach(e => {
+    if(e.innerText.includes(value)){
+      e.remove()
+    }
+  })
+}
+
 // Crée les filtres pour les ingrédients, ustensiles et appareils
 const createFilters = () => {
   let ingredients = recipes
@@ -43,27 +92,30 @@ const createFilters = () => {
   const selectIngredients = new Select("Ingrédients", ingredients, (value) => {
     selectedIngredients.push(value);
     filterRecipes()
+    addSelectedFilters(value, removeSelectedIngredient, selectIngredients)
   }, (value) => {
-    selectedIngredients = selectedIngredients.filter(ingredient => ingredient !== value)
-    filterRecipes()
+    removeSelectedIngredient(value)
+    removeSelectedFilters(value)
   });
   filters.appendChild(selectIngredients.render());
 
   const selectUstensils = new Select("Ustensils", ustensils, (value) => {
     selectedUstensils.push(value);
     filterRecipes()
+    addSelectedFilters(value, removeSelectedUstensil)
   }, (value) => {
-    selectedUstensils = selectedUstensils.filter(ustensil => ustensil !== value)
-    filterRecipes()
+    removeSelectedUstensil(value)
+    removeSelectedFilters(value)
   });
   filters.appendChild(selectUstensils.render());
 
   const selectAppliances = new Select("Appareils", appliances, (value) => {
     selectedAppliances.push(value);
     filterRecipes()
+    addSelectedFilters(value, removeSelectedAppliance)
   }, (value) => {
-    selectedAppliances = selectedAppliances.filter(appliance => appliance !== value)
-    filterRecipes()
+    removeSelectedAppliance(value)
+    removeSelectedFilters(value)
   });
   filters.appendChild(selectAppliances.render());
 
@@ -128,8 +180,15 @@ const filterRecipes = () => {
 
 
   addRecipesDOM(filteredRecipes);
+  updateCounter(filteredRecipes)
 
 
+
+}
+
+const updateCounter = (filteredRecipes) => {
+  const counter = document.querySelector('.counter')
+  counter.innerText = `${filteredRecipes.length} ${filteredRecipes.length > 1 ? 'recettes' : 'recette'}`
 }
 
 // Initialise l'application
@@ -137,6 +196,7 @@ const init = async () => {
   recipes = await fetchRecipes();
   addRecipesDOM(recipes);
   createFilters();
+  filterRecipes()
 };
 
 init();

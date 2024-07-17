@@ -16,17 +16,17 @@ class Select {
     this.removeData = removeData;
   }
 
-  // Filtre les données en fonction de la valeur de recherche
-  filterData(value, list) {
-    let filteredData = this.data;
-    if (value.length > 0) {
-      filteredData = this.data.filter((d) =>
-        d.toLowerCase().includes(value.toLowerCase())
-      );
-    }
+  removeSelectItem(value){
+    this.selectedItems = this.selectedItems.filter(e => e !== value)
+    const selectedItemsDOM = document.querySelectorAll('.selected-item')
+    selectedItemsDOM.forEach((e) => {
+      if(e.innerText.includes(value)){
+        e.remove()
+      }
+    })
+  }
 
-    list.innerHTML = "";
-
+  displaySelectedItems(value) {
     // Affiche les éléments sélectionnés en haut de la liste avec un bouton de suppression
     this.selectedItems.forEach((element) => {
       const el = document.createElement("li");
@@ -44,13 +44,29 @@ class Select {
         this.selectedItems = this.selectedItems.filter(
           (item) => item !== element
         );
-        this.filterData(value, list);
+        this.filterData(value, this.list);
         this.removeData(element)
       });
       el.appendChild(removeButton);
 
-      list.appendChild(el);
+      this.list.appendChild(el);
     });
+  }
+
+  // Filtre les données en fonction de la valeur de recherche
+  filterData(value, list) {
+    this.list = list
+    let filteredData = this.data;
+    if (value.length > 0) {
+      filteredData = this.data.filter((d) =>
+        d.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+    list.innerHTML = "";
+
+    this.displaySelectedItems(value, list)    
+    
 
     // Ajouter un séparateur entre les éléments sélectionnés et non sélectionnés
     if (this.selectedItems.length > 0) {

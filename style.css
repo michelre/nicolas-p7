@@ -8,6 +8,7 @@ body {
 .container {
   max-width: 1240px;
   margin: 20px auto;
+  padding: 0 20px;
 }
 
 header {
@@ -49,9 +50,10 @@ form button {
 }
 
 .filters {
-  display: flex;
-  gap: 80px;
-  margin-bottom: 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 65px;
+  row-gap: 24px;
 }
 
 .filter {
@@ -62,6 +64,41 @@ form button {
   padding: 10px;
   font-size: 14px;
   font-family: "Manrope", sans-serif;
+}
+
+.header-select {
+  display: flex;
+}
+
+.counter {
+  margin-left: auto;
+  margin-right: 0;
+  padding-top: 12px;
+}
+
+.selected-filters {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;  
+  margin-bottom: 40px;
+  margin-top: 0;
+
+}
+
+.selected-filter {
+  margin-right: 24px;
+  background: #FFD15B;
+  padding: 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.selected-filter button {
+  background: transparent;
+  border: none;
+  font-size: 23px;
 }
 
 .nb-recettes {
@@ -82,7 +119,8 @@ form button {
 .recipe {
   background: white;
   border-radius: 8%;
-  width: 380px;
+  width: 100%;
+  position: relative;
 }
 
 .recipe-image {
@@ -109,9 +147,9 @@ form button {
 }
 
 .recipe-time {
-  position: relative;
-    top: -235px;
-    right: -295px;
+  position: absolute;
+    top: 22px;
+    right: 22px;
   background-color: #ffd15b;
   color: #fff;
   padding: 5px 10px;
@@ -162,7 +200,7 @@ form button {
 .select {
   position: relative;
   display: inline-block;
-  width: 200px;
+  width: 100%;
   border-radius: 15px;
   background-color: white;
   cursor: pointer;
@@ -287,6 +325,10 @@ form button {
 @media screen and (min-width: 768px) {
   .recipes {
     grid-template-columns: 1fr 1fr;
+  }
+  
+  .filters{
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
