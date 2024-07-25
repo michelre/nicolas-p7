@@ -102,7 +102,7 @@ const createFilters = () => {
   const selectUstensils = new Select("Ustensils", ustensils, (value) => {
     selectedUstensils.push(value);
     filterRecipes()
-    addSelectedFilters(value, removeSelectedUstensil)
+    addSelectedFilters(value, removeSelectedUstensil, selectUstensils)
   }, (value) => {
     removeSelectedUstensil(value)
     removeSelectedFilters(value)
@@ -112,7 +112,7 @@ const createFilters = () => {
   const selectAppliances = new Select("Appareils", appliances, (value) => {
     selectedAppliances.push(value);
     filterRecipes()
-    addSelectedFilters(value, removeSelectedAppliance)
+    addSelectedFilters(value, removeSelectedAppliance, selectAppliances)
   }, (value) => {
     removeSelectedAppliance(value)
     removeSelectedFilters(value)
