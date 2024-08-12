@@ -180,7 +180,87 @@ class Select {
     document.addEventListener("click", (e) => this.handleClickOutside(e));
 
     return this.container;
-}
+  }
 }
 
-export default Select;
+class SelectIngredients extends Select{
+
+  constructor(data, filterRecipes){
+    super('Ingrédients')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.filterRecipes = filterRecipes
+    this.selectedIngredients = []
+  }
+
+  select(value){
+    this.selectedIngredients.push(value);
+    this.filterRecipes()
+  }
+
+  remove(value){
+    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient !== value)
+    this.filterRecipes()
+  }
+
+  getSelectedIngredients(){
+    return this.selectedIngredients
+  }
+}
+
+class SelectUstensils extends Select{
+
+  constructor(data, filterRecipes){
+    super('Ustensils')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.filterRecipes = filterRecipes
+    this.selectedUstensils = []
+  }
+
+  select(value){
+    this.selectedUstensils.push(value);
+    this.filterRecipes()
+  }
+
+  remove(value){
+    this.selectedUstensils = this.selectedUstensils.filter(ustensil => ustensil !== value)
+    this.filterRecipes()
+  }
+
+  getSelectedUstensils(){
+    return this.selectedUstensils
+  }
+}
+
+class SelectAppliances extends Select{
+
+  constructor(data, filterRecipes){
+    super('Appareils')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.filterRecipes = filterRecipes
+    this.selectedAppliances = []
+  }
+
+  select(value){
+    this.selectedAppliances.push(value);
+    this.filterRecipes()
+  }
+
+  remove(value){
+    this.selectedAppliances = this.selectedAppliances.filter(appliance => appliance !== value)
+    this.filterRecipes()
+  }
+
+  getSelectedAppliances(){
+    return this.selectedAppliances
+  }
+}
+
+
+export default Select
+export { SelectIngredients, SelectUstensils, SelectAppliances };

@@ -1,10 +1,11 @@
 import { Recipe } from "./components/recipe.js";
-import Select from "./components/select.js";
+//import Select from "./components/select.js";
+import {SelectIngredients, SelectUstensils, SelectAppliances} from "./components/select.js"
 
 let recipes = [];
-let selectedIngredients = [];
-let selectedAppliances = [];
-let selectedUstensils = [];
+let selectIngredients = null;
+let selectUstensils = null;
+let selectAppliances = null;
 let query = ''
 let selectedFilters = null
 
@@ -26,21 +27,6 @@ const addRecipesDOM = (recipes) => {
     recipesDOM.appendChild(li);
   });
 };
-
-const removeSelectedIngredient = (value) => {
-  selectedIngredients = selectedIngredients.filter(ingredient => ingredient !== value)
-  filterRecipes()
-}
-
-const removeSelectedUstensil = (value) => {
-  selectedUstensils = selectedUstensils.filter(ustensil => ustensil !== value)
-  filterRecipes()
-}
-
-const removeSelectedAppliance = (value) => {
-  selectedAppliances = selectedAppliances.filter(appliance => appliance !== value)
-  filterRecipes()
-}
 
 const addSelectedFilters = (value, removeCallback, selectObject) => {
   selectedFilters = document.querySelector('.selected-filters')
@@ -66,14 +52,14 @@ const addSelectedFilters = (value, removeCallback, selectObject) => {
   })
 }
 
-const removeSelectedFilters = (value) => {
+/*const removeSelectedFilters = (value) => {
   const filters = document.querySelectorAll('.selected-filter')
   filters.forEach(e => {
     if(e.innerText.includes(value)){
       e.remove()
     }
   })
-}
+}*/
 
 // Crée les filtres pour les ingrédients, ustensiles et appareils
 const createFilters = () => {
@@ -89,35 +75,39 @@ const createFilters = () => {
   let appliances = [...new Set(recipes.map((r) => r.appliance.toLowerCase()))];
 
   const filters = document.querySelector(".filters");
-  const selectIngredients = new Select("Ingrédients", ingredients, (value) => {
+  selectIngredients = new SelectIngredients(ingredients, filterRecipes)
+  selectUstensils = new SelectUstensils(ustensils, filterRecipes)
+  selectAppliances = new SelectAppliances(appliances, filterRecipes)
+  /*const selectIngredients = new Select("Ingrédients", ingredients, (value) => {
     selectedIngredients.push(value);
     filterRecipes()
     addSelectedFilters(value, removeSelectedIngredient, selectIngredients)
   }, (value) => {
     removeSelectedIngredient(value)
     removeSelectedFilters(value)
-  });
-  filters.appendChild(selectIngredients.render());
+  });*/  
 
-  const selectUstensils = new Select("Ustensils", ustensils, (value) => {
+  /*const selectUstensils = new Select("Ustensils", ustensils, (value) => {
     selectedUstensils.push(value);
     filterRecipes()
     addSelectedFilters(value, removeSelectedUstensil, selectUstensils)
   }, (value) => {
     removeSelectedUstensil(value)
     removeSelectedFilters(value)
-  });
+  });*/
+  filters.appendChild(selectIngredients.render());
   filters.appendChild(selectUstensils.render());
+  filters.appendChild(selectAppliances.render());
 
-  const selectAppliances = new Select("Appareils", appliances, (value) => {
+  /*const selectAppliances = new Select("Appareils", appliances, (value) => {
     selectedAppliances.push(value);
     filterRecipes()
     addSelectedFilters(value, removeSelectedAppliance, selectAppliances)
   }, (value) => {
     removeSelectedAppliance(value)
     removeSelectedFilters(value)
-  });
-  filters.appendChild(selectAppliances.render());
+  });*/
+  
 
   //Initialisation d'évènements sur le champs de recherche
   const form = document.querySelector('#search-form')
@@ -128,6 +118,7 @@ const createFilters = () => {
 };
 
 const filterRecipesByIngredient = (recipe) => {  
+    const selectedIngredients = selectIngredients.getSelectedIngredients()
     if(selectedIngredients.length === 0){
       return true;
     }
@@ -140,7 +131,6 @@ const filterRecipesByIngredient = (recipe) => {
 }
 
 const filterBySearch = (recipe) => {
-  // TODO: Chercher dans le titre & les ingrédients
   if(query.length === 0) {
     return true
   }
@@ -152,6 +142,7 @@ const filterBySearch = (recipe) => {
 }
 
 const filterRecipesByUstensil = (recipe) => {  
+    const selectedUstensils = selectUstensils.getSelectedUstensils()
     if(selectedUstensils.length === 0){
       return true;
     }
@@ -163,6 +154,7 @@ const filterRecipesByUstensil = (recipe) => {
 }
 
 const filterRecipesByAppliance = (recipe) => {
+  const selectedAppliances = selectAppliances.getSelectedAppliances()
   if(selectedAppliances.length === 0){
     return true;
   }
@@ -181,8 +173,6 @@ const filterRecipes = () => {
 
   addRecipesDOM(filteredRecipes);
   updateCounter(filteredRecipes)
-
-
 
 }
 
