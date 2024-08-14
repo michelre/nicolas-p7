@@ -16,17 +16,12 @@ class Select {
     this.removeData = removeData;
   }
 
-  // Filtre les données en fonction de la valeur de recherche
-  filterData(value, list) {
-    let filteredData = this.data;
-    if (value.length > 0) {
-      filteredData = this.data.filter((d) =>
-        d.toLowerCase().includes(value.toLowerCase())
-      );
-    }
+  removeSelectItem(value){
+    this.selectedItems = this.selectedItems.filter(e => e !== value)
+    this.filterData('', this.list)
+  }
 
-    list.innerHTML = "";
-
+  displaySelectedItems(value) {
     // Affiche les éléments sélectionnés en haut de la liste avec un bouton de suppression
     this.selectedItems.forEach((element) => {
       const el = document.createElement("li");
@@ -44,13 +39,29 @@ class Select {
         this.selectedItems = this.selectedItems.filter(
           (item) => item !== element
         );
-        this.filterData(value, list);
+        this.filterData(value, this.list);
         this.removeData(element)
       });
       el.appendChild(removeButton);
 
-      list.appendChild(el);
+      this.list.appendChild(el);
     });
+  }
+
+  // Filtre les données en fonction de la valeur de recherche
+  filterData(value, list) {
+    this.list = list
+    let filteredData = this.data;
+    if (value.length > 0) {
+      filteredData = this.data.filter((d) =>
+        d.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+    list.innerHTML = "";
+
+    this.displaySelectedItems(value, list)    
+    
 
     // Ajouter un séparateur entre les éléments sélectionnés et non sélectionnés
     if (this.selectedItems.length > 0) {
@@ -164,7 +175,105 @@ class Select {
     document.addEventListener("click", (e) => this.handleClickOutside(e));
 
     return this.container;
-}
+  }
 }
 
-export default Select;
+class SelectIngredients extends Select{
+
+  constructor(data, onSelect, onRemove){
+    super('Ingrédients')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.onSelect = onSelect
+    this.onRemove = onRemove
+    this.selectedIngredients = []
+  }
+
+  select(value){
+    this.selectedIngredients.push(value);
+    this.onSelect(value, this.name)
+  }
+
+  remove(value){
+    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient !== value)
+    this.onRemove(value)
+  }
+
+  removeSelectedIngredient(value){
+    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient !== value)
+    this.removeSelectItem(value)
+  }
+
+  getSelectedIngredients(){
+    return this.selectedIngredients
+  }
+}
+
+class SelectUstensils extends Select{
+
+  constructor(data, onSelect, onRemove){
+    super('Ustensils')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.onSelect = onSelect
+    this.onRemove = onRemove
+    this.selectedUstensils = []
+  }
+
+  select(value){
+    this.selectedUstensils.push(value);
+    this.onSelect(value, this.name)
+  }
+
+  remove(value){
+    this.selectedUstensils = this.selectedUstensils.filter(ustensil => ustensil !== value)
+    this.onRemove(value)
+  }
+
+  removeSelectedUstensil(value){
+    this.selectedUstensils = this.selectedUstensils.filter(u => u !== value)
+    this.removeSelectItem(value)
+  }
+
+  getSelectedUstensils(){
+    return this.selectedUstensils
+  }
+}
+
+class SelectAppliances extends Select{
+
+  constructor(data, onSelect, onRemove){
+    super('Appareils')
+    this.data = data
+    this.selectData = this.select
+    this.removeData = this.remove
+    this.onSelect = onSelect
+    this.onRemove = onRemove
+    this.selectedAppliances = []
+  }
+
+  select(value){
+    this.selectedAppliances.push(value);
+    this.onSelect(value, this.name)
+  }
+
+  remove(value){
+    this.selectedAppliances = this.selectedAppliances.filter(appliance => appliance !== value)
+    this.onRemove(value)
+  }
+
+  removeSelectedAppliance(value){
+    this.selectedAppliances = this.selectedAppliances.filter(a => a !== value)
+    this.removeSelectItem(value)
+  }
+
+  getSelectedAppliances(){
+    return this.selectedAppliances
+  }
+}
+
+
+export default Select
+export { SelectIngredients, SelectUstensils, SelectAppliances };
