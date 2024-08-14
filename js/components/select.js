@@ -18,12 +18,7 @@ class Select {
 
   removeSelectItem(value){
     this.selectedItems = this.selectedItems.filter(e => e !== value)
-    const selectedItemsDOM = document.querySelectorAll('.selected-item')
-    selectedItemsDOM.forEach((e) => {
-      if(e.innerText.includes(value)){
-        e.remove()
-      }
-    })
+    this.filterData('', this.list)
   }
 
   displaySelectedItems(value) {
@@ -185,23 +180,29 @@ class Select {
 
 class SelectIngredients extends Select{
 
-  constructor(data, filterRecipes){
+  constructor(data, onSelect, onRemove){
     super('Ingrédients')
     this.data = data
     this.selectData = this.select
     this.removeData = this.remove
-    this.filterRecipes = filterRecipes
+    this.onSelect = onSelect
+    this.onRemove = onRemove
     this.selectedIngredients = []
   }
 
   select(value){
     this.selectedIngredients.push(value);
-    this.filterRecipes()
+    this.onSelect(value, this.name)
   }
 
   remove(value){
     this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient !== value)
-    this.filterRecipes()
+    this.onRemove(value)
+  }
+
+  removeSelectedIngredient(value){
+    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient !== value)
+    this.removeSelectItem(value)
   }
 
   getSelectedIngredients(){
@@ -211,23 +212,29 @@ class SelectIngredients extends Select{
 
 class SelectUstensils extends Select{
 
-  constructor(data, filterRecipes){
+  constructor(data, onSelect, onRemove){
     super('Ustensils')
     this.data = data
     this.selectData = this.select
     this.removeData = this.remove
-    this.filterRecipes = filterRecipes
+    this.onSelect = onSelect
+    this.onRemove = onRemove
     this.selectedUstensils = []
   }
 
   select(value){
     this.selectedUstensils.push(value);
-    this.filterRecipes()
+    this.onSelect(value, this.name)
   }
 
   remove(value){
     this.selectedUstensils = this.selectedUstensils.filter(ustensil => ustensil !== value)
-    this.filterRecipes()
+    this.onRemove(value)
+  }
+
+  removeSelectedUstensil(value){
+    this.selectedUstensils = this.selectedUstensils.filter(u => u !== value)
+    this.removeSelectItem(value)
   }
 
   getSelectedUstensils(){
@@ -237,23 +244,29 @@ class SelectUstensils extends Select{
 
 class SelectAppliances extends Select{
 
-  constructor(data, filterRecipes){
+  constructor(data, onSelect, onRemove){
     super('Appareils')
     this.data = data
     this.selectData = this.select
     this.removeData = this.remove
-    this.filterRecipes = filterRecipes
+    this.onSelect = onSelect
+    this.onRemove = onRemove
     this.selectedAppliances = []
   }
 
   select(value){
     this.selectedAppliances.push(value);
-    this.filterRecipes()
+    this.onSelect(value, this.name)
   }
 
   remove(value){
     this.selectedAppliances = this.selectedAppliances.filter(appliance => appliance !== value)
-    this.filterRecipes()
+    this.onRemove(value)
+  }
+
+  removeSelectedAppliance(value){
+    this.selectedAppliances = this.selectedAppliances.filter(a => a !== value)
+    this.removeSelectItem(value)
   }
 
   getSelectedAppliances(){

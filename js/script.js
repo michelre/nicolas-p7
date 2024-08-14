@@ -1,13 +1,14 @@
+import Filter from "./components/filter.js";
 import { Recipe } from "./components/recipe.js";
-//import Select from "./components/select.js";
 import {SelectIngredients, SelectUstensils, SelectAppliances} from "./components/select.js"
+import { updateCounter } from "./helpers.js";
 
 let recipes = [];
 let selectIngredients = null;
 let selectUstensils = null;
 let selectAppliances = null;
 let query = ''
-let selectedFilters = null
+let filters = []
 
 // Récupère les recettes depuis un fichier JSON
 const fetchRecipes = async () => {
@@ -28,38 +29,42 @@ const addRecipesDOM = (recipes) => {
   });
 };
 
-const addSelectedFilters = (value, removeCallback, selectObject) => {
-  selectedFilters = document.querySelector('.selected-filters')
-  const element = document.createElement('li')
-  element.classList.add('selected-filter')
-
-  const text = document.createElement('span')
-  text.innerText = value
-
-  const removeButton = document.createElement("button");
-  removeButton.innerHTML = "&times;";
-
-  element.appendChild(text)
-  element.appendChild(removeButton)
-  
-  selectedFilters.appendChild(element)
-
-  removeButton.addEventListener('click', () => {
-    removeCallback(value)
-    selectObject.removeSelectItem(value)
-    element.remove()
-
-  })
+const onRemoveFilter = (filter) => {
+  if(filter.selectName === 'Ingrédients'){
+    selectIngredients.removeSelectedIngredient(filter.value)
+  }  
+  if(filter.selectName === 'Ustensils'){
+    selectUstensils.removeSelectedUstensil(filter.value)
+  }
+  if(filter.selectName === 'Appareils'){
+    selectAppliances.removeSelectedAppliance(filter.value)
+  }  
+  filterRecipes()
 }
 
-/*const removeSelectedFilters = (value) => {
-  const filters = document.querySelectorAll('.selected-filter')
-  filters.forEach(e => {
-    if(e.innerText.includes(value)){
-      e.remove()
+const addSelectedFilters = (value, selectName) => {
+  const selectedFilters = document.querySelector('.selected-filters')
+  const filter = new Filter(value, selectName, onRemoveFilter)
+  filters.push(filter)
+  selectedFilters.appendChild(filter.render())
+}
+
+const onSelect = (value, selectName) => {
+  filterRecipes()
+  addSelectedFilters(value, selectName)
+}
+
+const onRemove = (value) => {  
+  let restingFilters = []
+  for(let i = 0; i < filters.length; i++){
+    if(filters[i].getValue() === value){
+      filters[i].remove()
     }
-  })
-}*/
+    restingFilters.push(filters[i])
+  }
+  filters = restingFilters
+  filterRecipes()
+}
 
 // Crée les filtres pour les ingrédients, ustensiles et appareils
 const createFilters = () => {
@@ -75,38 +80,12 @@ const createFilters = () => {
   let appliances = [...new Set(recipes.map((r) => r.appliance.toLowerCase()))];
 
   const filters = document.querySelector(".filters");
-  selectIngredients = new SelectIngredients(ingredients, filterRecipes)
-  selectUstensils = new SelectUstensils(ustensils, filterRecipes)
-  selectAppliances = new SelectAppliances(appliances, filterRecipes)
-  /*const selectIngredients = new Select("Ingrédients", ingredients, (value) => {
-    selectedIngredients.push(value);
-    filterRecipes()
-    addSelectedFilters(value, removeSelectedIngredient, selectIngredients)
-  }, (value) => {
-    removeSelectedIngredient(value)
-    removeSelectedFilters(value)
-  });*/  
-
-  /*const selectUstensils = new Select("Ustensils", ustensils, (value) => {
-    selectedUstensils.push(value);
-    filterRecipes()
-    addSelectedFilters(value, removeSelectedUstensil, selectUstensils)
-  }, (value) => {
-    removeSelectedUstensil(value)
-    removeSelectedFilters(value)
-  });*/
+  selectIngredients = new SelectIngredients(ingredients, onSelect, onRemove)
+  selectUstensils = new SelectUstensils(ustensils, onSelect, onRemove)
+  selectAppliances = new SelectAppliances(appliances, onSelect, onRemove)
   filters.appendChild(selectIngredients.render());
   filters.appendChild(selectUstensils.render());
   filters.appendChild(selectAppliances.render());
-
-  /*const selectAppliances = new Select("Appareils", appliances, (value) => {
-    selectedAppliances.push(value);
-    filterRecipes()
-    addSelectedFilters(value, removeSelectedAppliance, selectAppliances)
-  }, (value) => {
-    removeSelectedAppliance(value)
-    removeSelectedFilters(value)
-  });*/
   
 
   //Initialisation d'évènements sur le champs de recherche
@@ -174,11 +153,6 @@ const filterRecipes = () => {
   addRecipesDOM(filteredRecipes);
   updateCounter(filteredRecipes)
 
-}
-
-const updateCounter = (filteredRecipes) => {
-  const counter = document.querySelector('.counter')
-  counter.innerText = `${filteredRecipes.length} ${filteredRecipes.length > 1 ? 'recettes' : 'recette'}`
 }
 
 // Initialise l'application
