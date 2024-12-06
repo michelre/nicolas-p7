@@ -71,7 +71,7 @@ class Select {
     }
 
     // Affiche les autres éléments filtrés
-    filteredData.forEach((element) => {
+    filteredData.forEach((element) => {      
       if (!this.selectedItems.includes(element)) {
         const el = document.createElement("li");
         el.innerText = element;
@@ -123,6 +123,11 @@ class Select {
       this.closeDropdown();
     }
     this.ignoreClose = false;
+  }
+
+  setData(data){
+    this.data = data
+    this.filterData('', this.list)
   }
 
   // Rendu du composant

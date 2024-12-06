@@ -66,18 +66,27 @@ const onRemove = (value) => {
   filterRecipes()
 }
 
-// Crée les filtres pour les ingrédients, ustensiles et appareils
-const createFilters = () => {
+const getSelectItems = (recipes) => {
   let ingredients = recipes
     .map((recipe) =>
       recipe.ingredients.map(({ ingredient }) => ingredient.toLowerCase())
     )
     .flat();
-  ingredients = [...new Set(ingredients)];
+    /**
+     * L'utilisation d'un objet "Set" permet de supprimer les éléments en double dans la liste
+     */
+  ingredients = [...new Set(ingredients)]; 
 
-  let ustensils = [...new Set(recipes.map((r) => r.ustensils.map(u => u.toLowerCase())).flat())];
+  const ustensils = [...new Set(recipes.map((r) => r.ustensils.map(u => u.toLowerCase())).flat())];
 
-  let appliances = [...new Set(recipes.map((r) => r.appliance.toLowerCase()))];
+  const appliances = [...new Set(recipes.map((r) => r.appliance.toLowerCase()))];
+
+  return {ingredients, ustensils, appliances}
+}
+
+// Crée les filtres pour les ingrédients, ustensiles et appareils
+const createFilters = () => {
+  const {ingredients, ustensils, appliances} = getSelectItems(recipes)
 
   const filters = document.querySelector(".filters");
   selectIngredients = new SelectIngredients(ingredients, onSelect, onRemove)
@@ -96,12 +105,25 @@ const createFilters = () => {
   })
 };
 
+const updateSelectItems = (recipes) => {
+  const {ingredients, ustensils, appliances} = getSelectItems(recipes)
+  selectIngredients.setData(ingredients)
+  selectUstensils.setData(ustensils)
+  selectAppliances.setData(appliances)
+}
+
 const filterRecipesByIngredient = (recipe) => {  
     const selectedIngredients = selectIngredients.getSelectedIngredients()
+    /**
+     * Si pas d'ingrédient sélectionné, on bloque pas le reste de la recherche et on renvoi true
+     */
     if(selectedIngredients.length === 0){
       return true;
     }
 
+    /**
+     * Je garde la recette ssi un ingrédient sélectionné match avec un ingrédient de la recette
+     */
     return recipe
     .ingredients
     .filter(ingredient => selectedIngredients.includes(ingredient.ingredient.toLowerCase()))
@@ -141,7 +163,15 @@ const filterRecipesByAppliance = (recipe) => {
 
 }
 
-const filterRecipes = () => {  
+/**
+ * La methode centrale de tri des recettes
+ * Cette méthode consiste à appeler le filtre sur les ingrédients, les ustensils, les appareils et la recherche principale
+ */
+const filterRecipes = () => {
+  /**
+   * On itère sur l'ensemble des recettes et on vérifie que chaque recette contient au moins
+   * 1 ingrédient, 1 ustensil, 1 appareil ET match avec la recherche principale
+   */
   const filteredRecipes = recipes.filter(recipe => {
     return filterRecipesByIngredient(recipe) 
       && filterRecipesByUstensil(recipe)
@@ -152,14 +182,17 @@ const filterRecipes = () => {
 
   addRecipesDOM(filteredRecipes);
   updateCounter(filteredRecipes)
+  updateSelectItems(filteredRecipes)
 
 }
 
 // Initialise l'application
 const init = async () => {
+  // On commence par récupérer les données des recettes
   recipes = await fetchRecipes();
-  addRecipesDOM(recipes);
+  // On crée le DOM relatif aux filtres Select
   createFilters();
+  // On lance un premier tri pour initialiser le DOM des recettes & du compteur de recettes
   filterRecipes()
 };
 
