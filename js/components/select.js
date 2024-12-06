@@ -213,6 +213,19 @@ class SelectIngredients extends Select{
   getSelectedIngredients(){
     return this.selectedIngredients
   }
+
+  updateItems(items){
+    /** Afficher ou cacher les éléments qui ne correspondent pas au tri sélectionné */
+    const list = this.container.querySelectorAll('.select-content li:not(.selected-item, .separator)')
+    list.forEach(element => {      
+      if(!items.includes(element.innerText)){
+        element.style.display = 'none'
+      } else {
+        element.style.display = 'block'
+      }
+    })
+
+  }
 }
 
 class SelectUstensils extends Select{
